@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
     app:startDestination="@+id/navigation_home">
 
+    <!-- Home Fragment -->
     <fragment
         android:id="@+id/navigation_home"
         android:name="com.example.shoppinglistapp.ui.home.HomeFragment"
@@ -17,16 +17,32 @@
             android:id="@+id/action_navigation_home_to_navigation_new_list"
             app:destination="@id/navigation_new_list" />
     </fragment>
+
+    <!-- Lists Fragment -->
     <fragment
         android:id="@+id/navigation_lists"
         android:name="com.example.shoppinglistapp.ui.lists.ListsFragment"
         android:label="Listas de Compra"
-        tools:layout="@layout/fragment_lists" />
+        tools:layout="@layout/fragment_lists">
+        <action
+            android:id="@+id/action_navigation_lists_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_lists_to_navigation_new_list"
+            app:destination="@id/navigation_new_list" />
+    </fragment>
 
+    <!-- New List Fragment -->
     <fragment
         android:id="@+id/navigation_new_list"
         android:name="com.example.shoppinglistapp.ui.new_list.NewListFragment"
         android:label="Nova Lista de Compra"
-        tools:layout="@layout/fragment_lists" />
+        tools:layout="@layout/fragment_lists">
+        <action
+            android:id="@+id/action_navigation_new_list_to_navigation_home"
+            app:destination="@id/navigation_home" />
+        <action
+            android:id="@+id/action_navigation_new_list_to_navigation_lists"
+            app:destination="@id/navigation_lists" />
+    </fragment>
 </navigation>
-
