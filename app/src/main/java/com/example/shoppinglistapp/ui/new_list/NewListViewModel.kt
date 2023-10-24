@@ -5,10 +5,16 @@ import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.data.Product
 import com.example.shoppinglistapp.data.ShoppingList
 import com.example.shoppinglistapp.data.ShoppingListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class NewListViewModel(private val repository: ShoppingListRepository) : ViewModel() {
+@HiltViewModel
+class NewListViewModel @Inject constructor(
+    private val repository: ShoppingListRepository
+) : ViewModel() {
     private val _produtos = mutableListOf<Product>()
+
     val produtos: List<Product> get() = _produtos
 
     fun adicionarProduto(produto: Product) {
@@ -21,3 +27,4 @@ class NewListViewModel(private val repository: ShoppingListRepository) : ViewMod
         _produtos.clear()
     }
 }
+

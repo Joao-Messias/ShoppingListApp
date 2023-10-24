@@ -6,22 +6,22 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
-import com.example.shoppinglistapp.databinding.FragmentNewListBinding
+import androidx.fragment.app.viewModels
 import com.example.shoppinglistapp.data.Product
-import com.example.shoppinglistapp.data.ShoppingList
+import com.example.shoppinglistapp.databinding.FragmentNewListBinding
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class NewListFragment : Fragment() {
 
     private var _binding: FragmentNewListBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var viewModel: NewListViewModel
+    private val viewModel: NewListViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        viewModel = ViewModelProvider(this).get(NewListViewModel::class.java)
         _binding = FragmentNewListBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
@@ -43,7 +43,8 @@ class NewListFragment : Fragment() {
     }
 
     private fun salvarLista() {
-        // Implemente a lógica para salvar a lista aqui
+        val nomeDaLista = binding.editTextListName.text.toString()
+        viewModel.salvarLista(nomeDaLista)
     }
 
     override fun onDestroyView() {

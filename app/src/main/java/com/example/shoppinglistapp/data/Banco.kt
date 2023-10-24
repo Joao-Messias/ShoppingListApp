@@ -10,6 +10,7 @@ import kotlin.concurrent.Volatile
 abstract class Banco : RoomDatabase() {
 
     abstract fun productDao(): ProductDao
+    abstract fun shoppingListDao(): ShoppingListDao
     companion object{
 
         @Volatile
