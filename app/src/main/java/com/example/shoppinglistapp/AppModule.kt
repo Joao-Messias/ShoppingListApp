@@ -2,31 +2,43 @@ package com.example.shoppinglistapp.di
 
 import android.content.Context
 import com.example.shoppinglistapp.data.Banco
+import com.example.shoppinglistapp.data.ProductDao
+import com.example.shoppinglistapp.data.ShoppingListDao
 import com.example.shoppinglistapp.data.ShoppingListRepository
-import com.example.shoppinglistapp.ui.new_list.NewListViewModel
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object AppModule {
 
     @Provides
-    fun provideShoppingListRepository(
-        @ApplicationContext context: Context
-    ): ShoppingListRepository {
-        val shoppingListDao = Banco.get(context).shoppingListDao()
-        val productDao = Banco.get(context).productDao()
-        return ShoppingListRepository(shoppingListDao, productDao)
+    @Singleton
+    fun provideBanco(@ApplicationContext context: Context): Banco {
+        return Banco.get(context)
     }
 
     @Provides
-    fun provideNewListViewModel(
-        repository: ShoppingListRepository
-    ): NewListViewModel {
-        return NewListViewModel(repository)
+    fun provideShoppingListDao(banco: Banco): ShoppingListDao {
+        return banco.shoppingListDao()
+    }
+
+    @Provides
+    fun provideProductDao(banco: Banco): ProductDao {
+        return banco.productDao()
+    }
+
+    @Provides
+    @Singleton
+    fun provideShoppingListRepository(
+        shoppingListDao: ShoppingListDao,
+        productDao: ProductDao
+    ): ShoppingListRepository {
+        return ShoppingListRepository(shoppingListDao, productDao)
     }
 }

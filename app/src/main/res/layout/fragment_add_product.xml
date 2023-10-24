@@ -18,10 +18,4 @@
         android:layout_height="wrap_content"
         android:hint="Quantidade" />
 
-    <Button
-        android:id="@+id/btnSave"
-        android:layout_width="228dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:text="Salvar" />
 </LinearLayout>
