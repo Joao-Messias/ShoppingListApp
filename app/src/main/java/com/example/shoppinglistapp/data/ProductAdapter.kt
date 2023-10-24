@@ -2,17 +2,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.shoppinglistapp.R
 import com.example.shoppinglistapp.data.Product
 
-class ProductAdapter(private val products: List<Product>) : RecyclerView.Adapter<ProductAdapter.ProductViewHolder>() {
-    private lateinit var productAdapter: ProductAdapter
-
-    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.editTextProductName)
-        val productQuantity: TextView = itemView.findViewById(R.id.editTextProductQuantity)
-    }
+class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(createDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
@@ -20,10 +16,29 @@ class ProductAdapter(private val products: List<Product>) : RecyclerView.Adapter
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
-        val currentProduct = products[position]
-        holder.productName.text = currentProduct.name
-        holder.productQuantity.text = currentProduct.quantity.toString()
+        val currentProduct = getItem(position)
+        holder.bind(currentProduct)
     }
 
-    override fun getItemCount() = products.size
+    class ProductViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        private val productNameTextView: TextView = itemView.findViewById(R.id.textViewProductName)
+        private val productQuantityTextView: TextView = itemView.findViewById(R.id.textViewProductQuantity)
+
+        fun bind(product: Product) {
+            productNameTextView.text = product.name
+            productQuantityTextView.text = product.quantity.toString()
+        }
+    }
+
+    companion object {
+        private fun createDiffCallback() = object : DiffUtil.ItemCallback<Product>() {
+            override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
+                return oldItem.id == newItem.id
+            }
+
+            override fun areContentsTheSame(oldItem: Product, newItem: Product): Boolean {
+                return oldItem == newItem
+            }
+        }
+    }
 }

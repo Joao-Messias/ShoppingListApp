@@ -71,7 +71,10 @@ class NewListFragment : Fragment() {
 
     private fun salvarLista() {
         val nomeDaLista = binding.editTextListName.text.toString()
-        viewModel.salvarLista(nomeDaLista)
+        if (nomeDaLista.isNotBlank()) {
+            viewModel.salvarLista(nomeDaLista)
+            binding.editTextListName.text.clear()
+        }
     }
 
     override fun onDestroyView() {

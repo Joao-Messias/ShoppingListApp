@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.ui.new_list
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.data.Product
@@ -17,12 +18,14 @@ class NewListViewModel @Inject constructor(
 ) : ViewModel() {
     private val _produtos = MutableStateFlow<List<Product>>(emptyList())
 
-    // Expondo apenas a versão imutável do StateFlow
     val produtos = _produtos.asStateFlow()
 
     fun adicionarProduto(produto: Product) {
-        // Atualizando a lista de produtos de forma thread-safe
-        _produtos.value = _produtos.value + produto
+        val novaLista = _produtos.value.toMutableList().apply {
+            add(produto)
+        }
+        _produtos.value = novaLista
+        Log.d("NewListViewModel", "Produtos: ${_produtos.value}")
     }
 
     fun salvarLista(nomeDaLista: String) = viewModelScope.launch {

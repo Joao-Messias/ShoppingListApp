@@ -24,8 +24,10 @@ class AddProductDialogFragment : DialogFragment() {
                 .setPositiveButton("Salvar") { dialog, id ->
                     val productName = view.findViewById<EditText>(R.id.editTextProductName).text.toString()
                     val productQuantity = view.findViewById<EditText>(R.id.editTextProductQuantity).text.toString().toIntOrNull() ?: 0
-                    val product = Product(name = productName, quantity = productQuantity)
-                    listener?.onProductAdded(product)
+                    if (productName.isNotBlank()) {
+                        val product = Product(name = productName, quantity = productQuantity)
+                        listener?.onProductAdded(product)
+                    }
                 }
                 .setNegativeButton("Cancelar") { dialog, id ->
                     dialog.cancel()
