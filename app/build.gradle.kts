@@ -8,11 +8,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.stockapp"
+    namespace = "com.example.shoppinglistapp"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.stockapp"
+        applicationId = "com.example.shoppinglistapp"
         minSdk = 26
         targetSdk = 33
         versionCode = 1

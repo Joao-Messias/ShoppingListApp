@@ -2,6 +2,7 @@ package com.example.shoppinglistapp.data
 
 import androidx.room.Entity
 import androidx.room.ForeignKey
+import androidx.room.Index
 import androidx.room.PrimaryKey
 
 @Entity(
@@ -13,7 +14,8 @@ import androidx.room.PrimaryKey
             childColumns = ["listId"],
             onDelete = ForeignKey.CASCADE
         )
-    ]
+    ],
+    indices = [Index(value = ["listId"])]
 )
 data class Product (
     @PrimaryKey(autoGenerate = true)
@@ -24,5 +26,5 @@ data class Product (
     val listId: Int
 )
 {
-    constructor() : this(0, "", 0, false, 0)
+    constructor(): this(0, "", 0, false, 0)
 }
