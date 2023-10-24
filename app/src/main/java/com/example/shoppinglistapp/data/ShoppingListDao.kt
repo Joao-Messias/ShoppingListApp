@@ -14,7 +14,7 @@ interface ShoppingListDao {
     suspend fun getById(id: Int): ShoppingList
 
     @Query("SELECT * FROM shopping_list WHERE name LIKE :name")
-     fun getByNameLike(name: String): Flow<List<ShoppingList>>
+    fun getByNameLike(name: String): Flow<List<ShoppingList>>
 
     @Query("DELETE FROM shopping_list WHERE id = :id")
     suspend fun delete(id: Int)
@@ -23,7 +23,8 @@ interface ShoppingListDao {
     suspend fun deleteAll()
 
     @Insert
-    suspend fun insert(shoppingList: ShoppingList)
+    suspend fun insert(shoppingList: ShoppingList): Long
+
 
     @Query("UPDATE shopping_list SET name = :name WHERE id = :id")
     suspend fun update(id: Int, name: String)
