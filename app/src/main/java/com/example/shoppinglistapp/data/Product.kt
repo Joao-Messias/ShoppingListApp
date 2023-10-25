@@ -19,12 +19,10 @@ import androidx.room.PrimaryKey
 )
 data class Product (
     @PrimaryKey(autoGenerate = true)
-    val id: Long,
+    val id: Long = 0,
     val name: String,
     val quantity: Int,
-    val checked: Boolean,
-    var listId: Long
+    val checked: Boolean = false,
+    var listId: Long = 0
 )
-{
-    constructor(quantity: Int, name: String) : this(0, "", 0, false, 0)
-}
+

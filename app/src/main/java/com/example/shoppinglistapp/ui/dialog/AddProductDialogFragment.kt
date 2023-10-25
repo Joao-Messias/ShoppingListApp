@@ -1,5 +1,6 @@
 import android.app.Dialog
 import android.os.Bundle
+import android.util.Log
 import android.widget.EditText
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
@@ -24,8 +25,10 @@ class AddProductDialogFragment : DialogFragment() {
                 .setPositiveButton("Salvar") { dialog, id ->
                     val productName = view.findViewById<EditText>(R.id.editTextProductName).text.toString()
                     val productQuantity = view.findViewById<EditText>(R.id.editTextProductQuantity).text.toString().toIntOrNull() ?: 0
+                    Log.d("AddProductDialog", "Produto: $productName, Quantidade: $productQuantity")
                     if (productName.isNotBlank()) {
                         val product = Product(name = productName, quantity = productQuantity)
+                        Log.d("AddProductDialog", "Chamando onProductAdded com: $product")
                         listener?.onProductAdded(product)
                     }
                 }

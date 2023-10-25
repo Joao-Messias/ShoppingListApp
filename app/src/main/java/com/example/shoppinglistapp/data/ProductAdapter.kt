@@ -1,3 +1,4 @@
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,12 +12,14 @@ import com.example.shoppinglistapp.data.Product
 class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(createDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ProductViewHolder {
+        Log.d("ProductAdapter", "onCreateViewHolder chamado")
         val itemView = LayoutInflater.from(parent.context).inflate(R.layout.product_item, parent, false)
         return ProductViewHolder(itemView)
     }
 
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val currentProduct = getItem(position)
+        Log.d("ProductAdapter", "onBindViewHolder chamado com: $currentProduct na posição $position")
         holder.bind(currentProduct)
     }
 
@@ -25,6 +28,7 @@ class ProductAdapter : ListAdapter<Product, ProductAdapter.ProductViewHolder>(cr
         private val productQuantityTextView: TextView = itemView.findViewById(R.id.textViewProductQuantity)
 
         fun bind(product: Product) {
+            Log.d("ProductAdapter", "bind chamado com: $product")
             productNameTextView.text = product.name
             productQuantityTextView.text = product.quantity.toString()
         }

@@ -3,9 +3,11 @@ package com.example.shoppinglistapp.ui.new_list
 import AddProductDialogFragment
 import ProductAdapter
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -56,7 +58,9 @@ class NewListFragment : Fragment() {
             val addProductDialogFragment = AddProductDialogFragment()
             addProductDialogFragment.setOnProductAddedListener(object : AddProductDialogFragment.OnProductAddedListener {
                 override fun onProductAdded(product: Product) {
+                    Log.d("NewListFragment", "onProductAdded chamado com: $product")
                     viewModel.adicionarProduto(product)
+                    Log.d("NewListFragment", "adicionarProduto chamado")
                 }
             })
             addProductDialogFragment.show(parentFragmentManager, "AddProductDialogFragment")
@@ -75,6 +79,21 @@ class NewListFragment : Fragment() {
             viewModel.salvarLista(nomeDaLista)
             binding.editTextListName.text.clear()
         }
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        viewModel.listaSalvaComSucesso.observe(viewLifecycleOwner) { listaSalva ->
+            if (listaSalva) {
+                mostrarMensagem("Lista cadastrada com Sucesso")
+                viewModel.resetListaSalvaComSucesso()
+            }
+        }
+    }
+
+    private fun mostrarMensagem(mensagem: String) {
+        Toast.makeText(context, mensagem, Toast.LENGTH_SHORT).show()
     }
 
     override fun onDestroyView() {
