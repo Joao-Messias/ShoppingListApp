@@ -4,35 +4,72 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.ViewModelProvider
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.shoppinglistapp.data.ShoppingListAdapter
 import com.example.shoppinglistapp.databinding.FragmentListsBinding
+import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 
+
+@AndroidEntryPoint
 class ListsFragment : Fragment() {
 
     private var _binding: FragmentListsBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var searchJob: Job
+    private val viewModel: ListsViewModel by viewModels()
+    private lateinit var adapter: ShoppingListAdapter
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
-        val listsViewModel =
-            ViewModelProvider(this).get(ListsViewModel::class.java)
-
         _binding = FragmentListsBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        return binding.root
+    }
 
-        val textView: TextView = binding.textLists
-        listsViewModel.text.observe(viewLifecycleOwner) {
-            textView.text = it
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        setupSearch()
+        setupRecyclerView()
+        setupDeleteAllButton()
+        observeShoppingLists()
+    }
+
+    private fun setupSearch() {
+        binding.editTextSearch.doAfterTextChanged { text ->
+            if (::searchJob.isInitialized) {
+                searchJob.cancel()
+            }
+            searchJob = lifecycleScope.launch {
+                delay(300)  // Debounce para evitar pesquisas a cada tecla pressionada
+                viewModel.searchLists(text.toString())
+            }
         }
-        return root
+    }
+
+    private fun setupRecyclerView() {
+        adapter = ShoppingListAdapter()
+        binding.recyclerViewLists.adapter = adapter
+        binding.recyclerViewLists.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+    private fun setupDeleteAllButton() {
+        binding.buttonDeleteAllLists.setOnClickListener {
+            viewModel.deleteAllLists()
+        }
+    }
+
+    private fun observeShoppingLists() {
+        viewModel.shoppingLists.observe(viewLifecycleOwner) { lists ->
+            adapter.submitList(lists)
+        }
     }
 
     override fun onDestroyView() {
@@ -40,3 +77,4 @@ class ListsFragment : Fragment() {
         _binding = null
     }
 }
+

@@ -3,11 +3,38 @@ package com.example.shoppinglistapp.ui.lists
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.asLiveData
+import androidx.lifecycle.viewModelScope
+import com.example.shoppinglistapp.data.ShoppingList
+import com.example.shoppinglistapp.data.ShoppingListRepository
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class ListsViewModel : ViewModel() {
+@HiltViewModel
+class ListsViewModel @Inject constructor(
+    private val repository: ShoppingListRepository
+) : ViewModel() {
 
-    private val _text = MutableLiveData<String>().apply {
-        value = "Tela de Listagem de Lista de Compras"
+    private val _searchQuery = MutableStateFlow("")
+    val searchQuery: StateFlow<String> = _searchQuery.asStateFlow()
+
+    fun searchLists(query: String) {
+        _searchQuery.value = query
     }
-    val text: LiveData<String> = _text
+
+    val shoppingLists: LiveData<List<ShoppingList>> = repository.getAllShoppingLists()
+        .combine(searchQuery) { lists, query ->
+            if (query.isBlank()) lists
+            else lists.filter { it.name.contains(query, ignoreCase = true) }
+        }
+        .asLiveData()
+
+    fun deleteAllLists() = viewModelScope.launch {
+        repository.deleteAllShoppingLists()
+    }
 }

@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 @Dao
 interface ShoppingListDao {
     @Query("SELECT * FROM shopping_list")
-    suspend fun getAll(): List<ShoppingList>
+    fun getAll(): Flow<List<ShoppingList>>
 
     @Query("SELECT * FROM shopping_list WHERE id = :id")
     suspend fun getById(id: Int): ShoppingList
@@ -17,7 +17,7 @@ interface ShoppingListDao {
     fun getByNameLike(name: String): Flow<List<ShoppingList>>
 
     @Query("DELETE FROM shopping_list WHERE id = :id")
-    suspend fun delete(id: Int)
+    suspend fun delete(id: kotlin.Long)
 
     @Query("DELETE FROM shopping_list")
     suspend fun deleteAll()
