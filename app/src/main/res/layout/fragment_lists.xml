@@ -33,21 +33,21 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewLists"
-        android:layout_width="400dp"
-        android:layout_height="525dp"
-        app:layout_constraintBottom_toTopOf="@+id/buttonDeleteAllLists"
+        android:layout_width="389dp"
+        android:layout_height="372dp"
+        android:layout_marginTop="104dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/text_lists" />
 
     <Button
         android:id="@+id/buttonDeleteAllLists"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_width="385dp"
+        android:layout_height="54dp"
+        android:layout_margin="16dp"
         android:text="Deletar Todas as Listas"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_margin="16dp"/>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewLists" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
+
+    @Query("SELECT * FROM product WHERE listId = :listId")
+    fun getProductsByListId(listId: Long): Flow<List<Product>>
     @Query("SELECT * FROM product")
     fun getAll(): Flow<List<Product>>
 
@@ -19,7 +22,7 @@ interface ProductDao {
     suspend fun update(product: Product)
 
     @Query("DELETE FROM product WHERE id = :id")
-    suspend fun delete(id: Int)
+    suspend fun delete(id: kotlin.Long)
 
     @Transaction
     @Query("SELECT * FROM shopping_list WHERE id = :listId")

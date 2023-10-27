@@ -7,11 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.ListAdapter
 import com.example.shoppinglistapp.databinding.ItemShoppingListBinding
 
-class ShoppingListAdapter : ListAdapter<ShoppingList, ShoppingListAdapter.ViewHolder>(DiffCallback()) {
+class ShoppingListAdapter(private val onItemClicked: (ShoppingList) -> Unit) : ListAdapter<ShoppingList, ShoppingListAdapter.ViewHolder>(DiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding = ItemShoppingListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
-        return ViewHolder(binding)
+        return ViewHolder(binding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -19,9 +19,12 @@ class ShoppingListAdapter : ListAdapter<ShoppingList, ShoppingListAdapter.ViewHo
         holder.bind(shoppingList)
     }
 
-    class ViewHolder(private val binding: ItemShoppingListBinding) : RecyclerView.ViewHolder(binding.root) {
+    class ViewHolder(private val binding: ItemShoppingListBinding, val onItemClicked: (ShoppingList) -> Unit) : RecyclerView.ViewHolder(binding.root) {
         fun bind(shoppingList: ShoppingList) {
             binding.textViewListName.text = shoppingList.name
+            binding.root.setOnClickListener {
+                onItemClicked(shoppingList)
+            }
         }
     }
 

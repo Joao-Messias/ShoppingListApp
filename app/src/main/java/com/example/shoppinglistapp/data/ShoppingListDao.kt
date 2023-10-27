@@ -3,15 +3,19 @@ package com.example.shoppinglistapp.data
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.Query
+import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ShoppingListDao {
+    @Update
+    suspend fun update(shoppingList: ShoppingList)
+
     @Query("SELECT * FROM shopping_list")
     fun getAll(): Flow<List<ShoppingList>>
 
     @Query("SELECT * FROM shopping_list WHERE id = :id")
-    suspend fun getById(id: Int): ShoppingList
+    suspend fun getById(id: Long): ShoppingList
 
     @Query("SELECT * FROM shopping_list WHERE name LIKE :name")
     fun getByNameLike(name: String): Flow<List<ShoppingList>>

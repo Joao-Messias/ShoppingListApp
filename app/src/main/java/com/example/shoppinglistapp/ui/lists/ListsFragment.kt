@@ -8,6 +8,8 @@ import androidx.core.widget.doAfterTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.shoppinglistapp.data.ShoppingListAdapter
 import com.example.shoppinglistapp.databinding.FragmentListsBinding
@@ -48,17 +50,21 @@ class ListsFragment : Fragment() {
                 searchJob.cancel()
             }
             searchJob = lifecycleScope.launch {
-                delay(300)  // Debounce para evitar pesquisas a cada tecla pressionada
+                delay(300)
                 viewModel.searchLists(text.toString())
             }
         }
     }
 
     private fun setupRecyclerView() {
-        adapter = ShoppingListAdapter()
+        adapter = ShoppingListAdapter { shoppingList ->
+            val action = ListsFragmentDirections.actionListsFragmentToEditListFragment(shoppingList.id)
+            findNavController().navigate(action)
+        }
         binding.recyclerViewLists.adapter = adapter
         binding.recyclerViewLists.layoutManager = LinearLayoutManager(requireContext())
     }
+
 
     private fun setupDeleteAllButton() {
         binding.buttonDeleteAllLists.setOnClickListener {

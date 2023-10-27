@@ -20,9 +20,9 @@ import androidx.room.PrimaryKey
 data class Product (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
-    val name: String,
-    val quantity: Int,
-    val checked: Boolean = false,
+    var name: String,
+    var quantity: Int,
+    var checked: Boolean = false,
     var listId: Long = 0
 )
 
