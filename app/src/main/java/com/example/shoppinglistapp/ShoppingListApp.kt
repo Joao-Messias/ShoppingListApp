@@ -18,3 +18,4 @@ class ShoppingListApp : Application() {
         super.onCreate()
     }
 }
+

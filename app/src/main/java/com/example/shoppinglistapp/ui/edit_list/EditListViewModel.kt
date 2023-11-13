@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.shoppinglistapp.data.Product
 import com.example.shoppinglistapp.data.ShoppingList
-import com.example.shoppinglistapp.data.ShoppingListRepository
+import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.launch
@@ -12,7 +12,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditListViewModel @Inject constructor(
-    private val repository: ShoppingListRepository
+    private val repository: ShoppingListRepositorySQL
 ) : ViewModel() {
 
     private val _listId = MutableLiveData<Long>()

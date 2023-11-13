@@ -20,6 +20,7 @@ import androidx.room.PrimaryKey
 data class Product (
     @PrimaryKey(autoGenerate = true)
     val id: Long = 0,
+    var firestoreId: String? = null, // ID do Firestore
     var name: String,
     var quantity: Int,
     var checked: Boolean = false,

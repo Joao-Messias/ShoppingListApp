@@ -1,51 +1,16 @@
 package com.example.shoppinglistapp.data
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import javax.inject.Inject
-
-
-class ShoppingListRepository @Inject constructor(private val shoppingListDao: ShoppingListDao, private val productDao: ProductDao) {
-    suspend fun insertShoppingListWithProducts(
-        shoppingList: ShoppingList,
-        products: List<Product>
-    ) {
-        val listId = shoppingListDao.insert(shoppingList)
-        products.forEach { product ->
-            product.listId = listId
-            productDao.insert(product)
-        }
+interface ShoppingListRepository {
+    interface ShoppingListRepository {
+        suspend fun insertShoppingListWithProducts(shoppingList: ShoppingList, products: List<Product>)
+        fun getAllShoppingLists(): Flow<List<ShoppingList>>
+        suspend fun deleteAllShoppingLists()
+        fun getListById(listId: Long): Flow<ShoppingList>
+        fun getProductsByListId(listId: Long): Flow<List<Product>>
+        suspend fun updateProduct(product: Product)
+        suspend fun updateList(currentList: ShoppingList)
+        suspend fun deleteList(currentList: ShoppingList)
+        suspend fun deleteProduct(product: Product)
     }
-
-    fun getAllShoppingLists(): Flow<List<ShoppingList>> = shoppingListDao.getAll()
-
-    suspend fun deleteAllShoppingLists() {
-        shoppingListDao.deleteAll()
-    }
-
-    fun getListById(listId: Long): Flow<ShoppingList> = flow {
-        emit(shoppingListDao.getById(listId))
-    }
-
-    fun getProductsByListId(listId: Long): Flow<List<Product>> {
-        return productDao.getProductsByListId(listId)
-    }
-
-    suspend fun updateProduct(product: Product) {
-        productDao.update(product)
-    }
-
-    suspend fun updateList(currentList: ShoppingList) {
-        shoppingListDao.update(currentList)
-    }
-
-    suspend fun deleteList(currentList: ShoppingList) {
-        shoppingListDao.delete(currentList.id)
-    }
-
-    suspend fun deleteProduct(product: Product) {
-        productDao.delete(product.id)
-    }
-
 }
-

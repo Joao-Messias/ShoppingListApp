@@ -4,11 +4,10 @@ import android.content.Context
 import com.example.shoppinglistapp.data.Banco
 import com.example.shoppinglistapp.data.ProductDao
 import com.example.shoppinglistapp.data.ShoppingListDao
-import com.example.shoppinglistapp.data.ShoppingListRepository
+import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -38,7 +37,7 @@ object AppModule {
     fun provideShoppingListRepository(
         shoppingListDao: ShoppingListDao,
         productDao: ProductDao
-    ): ShoppingListRepository {
-        return ShoppingListRepository(shoppingListDao, productDao)
+    ): ShoppingListRepositorySQL {
+        return ShoppingListRepositorySQL(shoppingListDao, productDao)
     }
 }

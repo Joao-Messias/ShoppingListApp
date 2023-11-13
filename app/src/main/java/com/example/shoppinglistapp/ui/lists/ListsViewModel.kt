@@ -1,12 +1,11 @@
 package com.example.shoppinglistapp.ui.lists
 
 import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.data.ShoppingList
-import com.example.shoppinglistapp.data.ShoppingListRepository
+import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -17,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListsViewModel @Inject constructor(
-    private val repository: ShoppingListRepository
+    private val repository: ShoppingListRepositorySQL
 ) : ViewModel() {
 
     private val _searchQuery = MutableStateFlow("")

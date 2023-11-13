@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "324135420320",
+    "project_id": "shopping-list-app-facb5",
+    "storage_bucket": "shopping-list-app-facb5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:324135420320:android:385726313a6ea8ab10e4c5",
+        "android_client_info": {
+          "package_name": "com.example.shoppinglistapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuhSvrYb5hLhhJ1U1GC3ldYsp3O2biYgY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
