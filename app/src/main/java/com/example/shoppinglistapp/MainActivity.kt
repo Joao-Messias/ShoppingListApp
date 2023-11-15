@@ -9,11 +9,15 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.example.shoppinglistapp.databinding.ActivityMainBinding
 import dagger.hilt.android.AndroidEntryPoint
+import android.content.IntentFilter
+import android.net.ConnectivityManager
+import com.example.shoppinglistapp.data.NetworkChangeReceiver
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
+    private lateinit var networkChangeReceiver: NetworkChangeReceiver
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,5 +35,22 @@ class MainActivity : AppCompatActivity() {
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         navView.setupWithNavController(navController)
+
+        // Inicializa o BroadcastReceiver
+        networkChangeReceiver = NetworkChangeReceiver {
+            // Se a rede estiver disponível, sincroniza os dados com o Firebase
+        }
+    }
+
+    override fun onStart() {
+        super.onStart()
+        // Registra o BroadcastReceiver para monitorar mudanças na conectividade de rede
+        registerReceiver(networkChangeReceiver, IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION))
+    }
+
+    override fun onStop() {
+        super.onStop()
+        // Desregistra o BroadcastReceiver
+        unregisterReceiver(networkChangeReceiver)
     }
 }

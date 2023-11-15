@@ -1,5 +1,6 @@
 package com.example.shoppinglistapp.data
 
+import android.util.Log
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
@@ -10,6 +11,7 @@ class ShoppingListRepositorySQL @Inject constructor(private val shoppingListDao:
         shoppingList: ShoppingList,
         products: List<Product>
     ) {
+        Log.d("FirebaseDebug", "Tentando salvar lista no SQL: $shoppingList")
         val listId = shoppingListDao.insert(shoppingList)
         products.forEach { product ->
             product.listId = listId

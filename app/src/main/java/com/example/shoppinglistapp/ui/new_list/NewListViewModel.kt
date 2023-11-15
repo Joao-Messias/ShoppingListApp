@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.data.Product
 import com.example.shoppinglistapp.data.ShoppingList
+import com.example.shoppinglistapp.data.ShoppingListRepositoryManager
 import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +17,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewListViewModel @Inject constructor(
-    private val repository: ShoppingListRepositorySQL
+    private val repository: ShoppingListRepositoryManager // Altere para usar o RepositoryManager
 ) : ViewModel() {
     private val _produtos = MutableStateFlow<List<Product>>(emptyList())
 

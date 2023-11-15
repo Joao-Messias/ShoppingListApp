@@ -1,5 +1,8 @@
 package com.example.shoppinglistapp.data
 
+import android.util.Log
+import com.example.shoppinglistapp.di.ProductsRef
+import com.example.shoppinglistapp.di.ShoppingListsRef
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.ktx.toObject
 import kotlinx.coroutines.flow.Flow
@@ -9,8 +12,8 @@ import javax.inject.Inject
 
 
 class ShoppingListRepositoryFirebase @Inject constructor(
-    private val shoppingListsRef: CollectionReference,
-    private val productsRef: CollectionReference
+    @ShoppingListsRef private val shoppingListsRef: CollectionReference,
+    @ProductsRef private val productsRef: CollectionReference
 
 ) {
     private var _shoppingLists = MutableStateFlow(listOf<ShoppingList>())
@@ -36,8 +39,8 @@ class ShoppingListRepositoryFirebase @Inject constructor(
         }
     }
 
-//    fun getAllShoppingLists(): Flow<List<ShoppingList>> {
-//        // Implemente a lógica para buscar todas as listas de compras do Firestore
+//        fun getAllShoppingLists(): Flow<List<ShoppingList>> {
+//         Implemente a lógica para buscar todas as listas de compras do Firestore
 //    }
     suspend fun saveShoppingList(shoppingList: ShoppingList) {
         if (shoppingList.firestoreId.isNullOrEmpty()) {

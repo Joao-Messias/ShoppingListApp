@@ -5,6 +5,8 @@ import com.example.shoppinglistapp.data.Banco
 import com.example.shoppinglistapp.data.ProductDao
 import com.example.shoppinglistapp.data.ShoppingListDao
 import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.FirebaseFirestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,5 +41,27 @@ object AppModule {
         productDao: ProductDao
     ): ShoppingListRepositorySQL {
         return ShoppingListRepositorySQL(shoppingListDao, productDao)
+    }
+    @Provides
+    fun provideContext(@ApplicationContext context: Context): Context {
+        return context
+    }
+    @Provides
+    @Singleton
+    fun provideFirestore(): FirebaseFirestore {
+        return FirebaseFirestore.getInstance()
+    }
+
+    @Provides
+    @ShoppingListsRef
+    fun provideShoppingListsCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection("shoppingLists")
+    }
+
+    @Provides
+    @ProductsRef
+    fun provideProductsCollectionReference(firestore: FirebaseFirestore): CollectionReference {
+        return firestore.collection("products")
+
     }
 }

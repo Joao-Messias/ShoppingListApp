@@ -8,5 +8,5 @@ data class ShoppingList(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
     var firestoreId: String? = null, // ID do Firestore
-    var name: String
+    var name: String = "" // Valor padrão para o nome
 )
