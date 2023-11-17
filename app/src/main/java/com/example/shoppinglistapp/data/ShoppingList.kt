@@ -7,6 +7,6 @@ import androidx.room.PrimaryKey
 data class ShoppingList(
     @PrimaryKey(autoGenerate = true)
     var id: Long = 0,
-    var firestoreId: String? = null, // ID do Firestore
+    var firestoreId : String? = null,
     var name: String = "" // Valor padrão para o nome
 )

@@ -2,6 +2,7 @@ package com.example.shoppinglistapp.data
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 interface ShoppingListRepository {
+
     interface ShoppingListRepository {
         suspend fun insertShoppingListWithProducts(shoppingList: ShoppingList, products: List<Product>)
         fun getAllShoppingLists(): Flow<List<ShoppingList>>

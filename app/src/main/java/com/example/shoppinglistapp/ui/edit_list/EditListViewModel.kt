@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.*
 import com.example.shoppinglistapp.data.Product
 import com.example.shoppinglistapp.data.ShoppingList
+import com.example.shoppinglistapp.data.ShoppingListRepositoryManager
 import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.firstOrNull
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class EditListViewModel @Inject constructor(
-    private val repository: ShoppingListRepositorySQL
+    private val repository: ShoppingListRepositorySQL,
+    private val manager : ShoppingListRepositoryManager
 ) : ViewModel() {
 
     private val _listId = MutableLiveData<Long>()
@@ -48,10 +50,12 @@ class EditListViewModel @Inject constructor(
                 currentList.name = _listName.value ?: ""
                 // Atualize a lista no repositório
                 repository.updateList(currentList)
+                manager.updateList(currentList)
 
                 currentProducts?.forEach { product ->
                     // Atualize os valores do produto com os valores dos MutableLiveData
                     repository.updateProduct(product)
+                    manager.updateProduct(product)
                     Log.d(TAG, "Atualizando produto NOME - ${product.name}")
                     Log.d(TAG, "Atualizando produto CHECK - ${product.checked}")
                     Log.d(TAG, "Atualizando produto QNTD - ${product.quantity}")
@@ -82,14 +86,16 @@ class EditListViewModel @Inject constructor(
         viewModelScope.launch {
             val currentList = shoppingList.value
             if (currentList != null) {
-                repository.deleteList(currentList)
+//                repository.deleteList(currentList)
+                manager.deleteList(currentList)
             }
         }
     }
 
     fun deleteProduct(product: Product) {
         viewModelScope.launch {
-            repository.deleteProduct(product)
+//            repository.deleteProduct(product)
+            manager.deleteProduct(product)
 
             val currentProducts = _currentProducts.value.orEmpty().toMutableList()
             currentProducts.remove(product)

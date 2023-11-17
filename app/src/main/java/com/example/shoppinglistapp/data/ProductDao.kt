@@ -15,10 +15,10 @@ interface ProductDao {
     @Query("SELECT * FROM product")
     fun getAll(): Flow<List<Product>>
 
-    @Insert
+    @Insert(onConflict = androidx.room.OnConflictStrategy.REPLACE)
     suspend fun insert(product: Product): Long
 
-    @Update
+    @Update(onConflict = androidx.room.OnConflictStrategy.REPLACE)
     suspend fun update(product: Product)
 
     @Query("DELETE FROM product WHERE id = :id")

@@ -7,6 +7,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.shoppinglistapp.data.Product
 import com.example.shoppinglistapp.data.ShoppingList
+import com.example.shoppinglistapp.data.ShoppingListRepositoryFirebase
 import com.example.shoppinglistapp.data.ShoppingListRepositoryManager
 import com.example.shoppinglistapp.data.ShoppingListRepositorySQL
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -17,7 +18,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class NewListViewModel @Inject constructor(
-    private val repository: ShoppingListRepositoryManager // Altere para usar o RepositoryManager
+    private val repository: ShoppingListRepositoryManager
 ) : ViewModel() {
     private val _produtos = MutableStateFlow<List<Product>>(emptyList())
 
@@ -37,11 +38,18 @@ class NewListViewModel @Inject constructor(
 
 
     fun salvarLista(nomeDaLista: String) = viewModelScope.launch {
-        val novaLista = ShoppingList(name = nomeDaLista)
+        // Cria uma nova ShoppingList com um firestoreId gerado, se necessário
+        val novaLista = ShoppingList(name = nomeDaLista).apply {
+            if (firestoreId.isNullOrEmpty()) {
+                firestoreId = repository.firebaseRepository.shoppingListsRef.document().id
+            }
+        }
+
         repository.insertShoppingListWithProducts(novaLista, _produtos.value)
         _produtos.value = emptyList() // Limpa a lista após salvar
         _listaSalvaComSucesso.value = true
     }
+
 
     fun resetListaSalvaComSucesso() {
         _listaSalvaComSucesso.value = false

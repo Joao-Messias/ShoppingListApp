@@ -10,13 +10,14 @@ class ShoppingListRepositorySQL @Inject constructor(private val shoppingListDao:
     suspend fun insertShoppingListWithProducts(
         shoppingList: ShoppingList,
         products: List<Product>
-    ) {
+    ): Long {
         Log.d("FirebaseDebug", "Tentando salvar lista no SQL: $shoppingList")
         val listId = shoppingListDao.insert(shoppingList)
         products.forEach { product ->
             product.listId = listId
             productDao.insert(product)
         }
+        return listId
     }
 
     fun getAllShoppingLists(): Flow<List<ShoppingList>> = shoppingListDao.getAll()

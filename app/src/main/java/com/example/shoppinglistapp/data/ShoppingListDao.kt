@@ -31,5 +31,6 @@ interface ShoppingListDao {
     suspend fun insert(shoppingList: ShoppingList): Long
 
     @Query("UPDATE shopping_list SET name = :name WHERE id = :id")
+//    @Update(onConflict = OnConflictStrategy.REPLACE, entity = ShoppingList::class)
     suspend fun update(id: Int, name: String)
 }
